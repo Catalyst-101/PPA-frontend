@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+@layer base {
+  body {
+    @apply bg-surface text-text-normal antialiased;
+  }
+}
+
+@layer utilities {
+  .ghost-border {
+    @apply border border-outline-variant opacity-100;
+  }
+  
+  .glass {
+    @apply bg-surface/80 backdrop-blur-[20px];
+  }
+  
+  .glass-dark {
+    @apply bg-primary/80 backdrop-blur-[20px];
+  }
+}
