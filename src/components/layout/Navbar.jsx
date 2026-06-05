@@ -35,18 +35,23 @@ function Navbar() {
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
         <Link to="/" className="flex flex-col">
-          <span className="font-serif font-bold text-xl text-primary tracking-tight">Pen & Page</span>
-          <span className="text-xs text-secondary tracking-widest uppercase mt-0.5">School</span>
+          <span className="font-serif font-extrabold text-2xl text-primary tracking-tight">
+            Pen & Page
+          </span>
+
+          <span className="text-xs font-bold text-secondary tracking-[0.4em] uppercase mt-1">
+            Academia & School
+          </span>
         </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 items-center">
           {links.map((link) => (
-            <Link 
-              key={link.name} 
+            <Link
+              key={link.name}
               to={link.path}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-secondary",
+                "text-md font-medium transition-colors hover:text-secondary",
                 location.pathname === link.path ? "text-secondary" : "text-text-variant"
               )}
             >
@@ -65,8 +70,8 @@ function Navbar() {
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full glass-dark text-white border-t border-white/10 flex flex-col py-4">
           {links.map((link) => (
-            <Link 
-              key={link.name} 
+            <Link
+              key={link.name}
               to={link.path}
               className="px-6 py-3 font-medium hover:bg-white/10 transition-colors"
               onClick={() => setIsOpen(false)}

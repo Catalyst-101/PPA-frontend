@@ -11,6 +11,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminAdmissions from './pages/admin/AdminAdmissions';
 import AdminNews from './pages/admin/AdminNews';
 import AdminCurriculum from './pages/admin/AdminCurriculum';
+import AdminSettings from './pages/admin/AdminSettings';
 
 // Placeholder Pages
 const Placeholder = ({ title }) => (
@@ -40,6 +41,7 @@ function App() {
             <Route path="admissions" element={<AdminAdmissions />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="curriculum" element={<AdminCurriculum />} />
+            <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Routes>
       </div>

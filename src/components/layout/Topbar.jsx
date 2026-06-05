@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FaPhone,
   FaEnvelope,
@@ -8,8 +8,31 @@ import {
 } from 'react-icons/fa';
 
 import { Link } from 'react-router-dom';
+import API from '../../api/api';
 
 function Topbar() {
+  const [misc, setMisc] = useState(null);
+
+  useEffect(() => {
+    const fetchMisc = async () => {
+      try {
+        const response = await API.get("/miscellaneous/get");
+        if (response.data.success) {
+          setMisc(response.data.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch miscellaneous data", error);
+      }
+    };
+    fetchMisc();
+  }, []);
+
+  const phoneDisplay = misc?.phone?.number ? `${misc.phone.code} ${misc.phone.number}` : '+92 348 0230807';
+  const emailDisplay = misc?.email || 'penandpageacademia@gmail.com';
+  const facebookHref = misc?.facebook || '#';
+  const twitterHref = misc?.twitter || '#';
+  const instagramHref = misc?.instagram || '#';
+
   return (
     <div className="bg-primary text-white py-2 px-6 text-sm flex justify-between items-center font-sans tracking-wide">
 
@@ -17,19 +40,19 @@ function Topbar() {
       <div className="flex items-center gap-6">
 
         <a
-          href="tel:+923480230807"
+          href={`tel:${phoneDisplay.replace(/[\s()-]/g, '')}`}
           className="flex items-center gap-2 hover:text-secondary transition-colors"
         >
           <FaPhone className="w-4 h-4" />
-          <span>+92 (348) 0230807</span>
+          <span>{phoneDisplay}</span>
         </a>
 
         <a
-          href="mailto:penandpageacademia@gmail.com"
+          href={`mailto:${emailDisplay}`}
           className="flex items-center gap-2 hover:text-secondary transition-colors"
         >
           <FaEnvelope className="w-4 h-4" />
-          <span>penandpageacademia@gmail.com</span>
+          <span>{emailDisplay}</span>
         </a>
       </div>
 
@@ -40,21 +63,21 @@ function Topbar() {
         <div className="flex items-center gap-4">
 
           <a
-            href="#"
+            href={facebookHref}
             className="hover:text-secondary transition-colors"
           >
             <FaFacebookF className="w-4 h-4" />
           </a>
 
           <a
-            href="#"
+            href={twitterHref}
             className="hover:text-secondary transition-colors"
           >
             <FaTwitter className="w-4 h-4" />
           </a>
 
           <a
-            href="#"
+            href={instagramHref}
             className="hover:text-secondary transition-colors"
           >
             <FaInstagram className="w-4 h-4" />
@@ -65,7 +88,7 @@ function Topbar() {
         {/* Admission Button */}
         <Link
           to="/admissions"
-          className="bg-secondary text-primary px-4 py-1.5 font-semibold hover:bg-white hover:text-primary transition-all duration-300 shadow-md"
+          className="bg-secondary text-white shadow-ambient hover:bg-secondary-fixedDim hover:-translate-y-0.5 px-5 py-1 text-sm rounded-md font-semibold transition-all duration-300"
         >
           Apply Now
         </Link>
