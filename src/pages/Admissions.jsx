@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/ui/Button';
 import { Card, CardContent } from '../components/ui/Card';
-import { CheckCircle2 } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Loader } from 'lucide-react';
+import { submitContact, getFeeStructures, getTransports } from '../api/api';
 
 export default function Admissions() {
   const [activeTab, setActiveTab] = useState('apply');
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [feeStructures, setFeeStructures] = useState([]);
+  const [transports, setTransports] = useState([]);
+  const [loadingData, setLoadingData] = useState(true);
+  
   const [formData, setFormData] = useState({
-    studentName: '',
+    name: '',
     dob: '',
     gender: '',
-    classApplying: '',
+    class: '',
     parentName: '',
     phone: '',
     email: '',
@@ -24,11 +31,66 @@ export default function Admissions() {
     'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10'
   ];
 
-  const handleSubmit = (e) => {
+  // Fetch fee structures and transports on component mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoadingData(true);
+        const [feesRes, transportsRes] = await Promise.all([
+          getFeeStructures(),
+          getTransports()
+        ]);
+        
+        if (feesRes.data.success) {
+          setFeeStructures(feesRes.data.data);
+        }
+        
+        if (transportsRes.data.success) {
+          setTransports(transportsRes.data.data);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+      } finally {
+        setLoadingData(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate API call
-    console.log("Submitting:", formData);
-    setIsSubmitted(true);
+    setLoading(true);
+    setError('');
+    
+    try {
+      const response = await submitContact({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: `Admission Application\nStudent Name: ${formData.name}\nDOB: ${formData.dob}\nGender: ${formData.gender}\nClass: ${formData.class}\nParent Name: ${formData.parentName}\nAddress: ${formData.address}\nPrevious School: ${formData.previousSchool}`
+      });
+
+      if (response.data.success) {
+        setIsSubmitted(true);
+        setFormData({
+          name: '',
+          dob: '',
+          gender: '',
+          class: '',
+          parentName: '',
+          phone: '',
+          email: '',
+          address: '',
+          previousSchool: ''
+        });
+      }
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to submit application. Please try again.');
+      console.error('Submit error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -125,12 +187,20 @@ export default function Admissions() {
                 <Card>
                   <CardContent className="p-8">
                     <h2 className="text-2xl font-serif font-bold text-primary mb-6">Online Admission Form</h2>
+                    
+                    {error && (
+                      <div className="mb-6 p-4 bg-error/10 border border-error/30 rounded-sm flex items-start gap-3">
+                        <AlertCircle className="w-5 h-5 text-error flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-error">{error}</p>
+                      </div>
+                    )}
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-text-variant">Student Full Name *</label>
-                          <input required type="text" name="studentName" value={formData.studentName} onChange={handleChange}
+                          <input required type="text" name="name" value={formData.name} onChange={handleChange}
                             className="w-full border-b border-outline bg-transparent py-2 px-1 focus:outline-none focus:border-secondary focus:bg-surface-containerHighest transition-colors" />
                         </div>
                         <div className="space-y-2">
@@ -152,7 +222,7 @@ export default function Admissions() {
                         </div>
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-text-variant">Class Applying For *</label>
-                          <select required name="classApplying" value={formData.classApplying} onChange={handleChange}
+                          <select required name="class" value={formData.class} onChange={handleChange}
                             className="w-full border-b border-outline bg-surface py-2 px-1 focus:outline-none focus:border-secondary transition-colors">
                             <option value="">Select Class</option>
                             {classesList.map(grade => (
@@ -196,7 +266,21 @@ export default function Admissions() {
                       </div>
 
                       <div className="pt-4 flex justify-end">
-                        <Button type="submit" variant="primary" className="w-full md:w-auto px-8">Submit Application</Button>
+                        <Button 
+                          type="submit" 
+                          variant="primary" 
+                          className="w-full md:w-auto px-8 flex items-center gap-2"
+                          disabled={loading}
+                        >
+                          {loading ? (
+                            <>
+                              <Loader className="w-4 h-4 animate-spin" />
+                              Submitting...
+                            </>
+                          ) : (
+                            'Submit Application'
+                          )}
+                        </Button>
                       </div>
 
                     </form>
@@ -212,58 +296,96 @@ export default function Admissions() {
           <div className="space-y-12 animate-fade-in">
             <div>
               <h2 className="text-3xl font-serif font-bold text-primary mb-6">Fee Structure</h2>
-              <Card>
-                <CardContent className="p-0 overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse min-w-[800px]">
-                      <thead>
-                        <tr className="bg-surface-containerHighest text-primary border-b border-outline-variant/30">
-                          <th className="p-4 font-semibold whitespace-nowrap">Class</th>
-                          <th className="p-4 font-semibold whitespace-nowrap">Monthly Tuition Fee</th>
-                          <th className="p-4 font-semibold whitespace-nowrap">Admission Fee</th>
-                          <th className="p-4 font-semibold whitespace-nowrap">Registration Fee</th>
-                          <th className="p-4 font-semibold whitespace-nowrap">Miscellaneous Fee</th>
-                          <th className="p-4 font-semibold whitespace-nowrap">Annual Charges</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-outline-variant/30 text-text-variant">
-                        {classesList.map((cls, index) => (
-                          <tr key={index} className="hover:bg-surface-containerLow/50 transition-colors">
-                            <td className="p-4 font-medium text-primary whitespace-nowrap">{cls}</td>
-                            <td className="p-4 whitespace-nowrap">Rs. ___</td>
-                            <td className="p-4 text-secondary font-medium whitespace-nowrap">Waived Off</td>
-                            <td className="p-4 whitespace-nowrap">Rs. ___</td>
-                            <td className="p-4 whitespace-nowrap">Rs. ___</td>
-                            <td className="p-4 whitespace-nowrap">Rs. ___</td>
+              {loadingData ? (
+                <Card>
+                  <CardContent className="p-8 flex items-center justify-center gap-3">
+                    <Loader className="w-5 h-5 animate-spin text-primary" />
+                    <p className="text-text-variant">Loading fee structure...</p>
+                  </CardContent>
+                </Card>
+              ) : feeStructures.length > 0 ? (
+                <Card>
+                  <CardContent className="p-0 overflow-hidden">
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                          <tr className="bg-surface-containerHighest text-primary border-b border-outline-variant/30">
+                            <th className="p-4 font-semibold whitespace-nowrap">Class</th>
+                            <th className="p-4 font-semibold whitespace-nowrap">Monthly Tuition</th>
+                            <th className="p-4 font-semibold whitespace-nowrap">Admission Fee</th>
+                            <th className="p-4 font-semibold whitespace-nowrap">Registration Fee</th>
+                            <th className="p-4 font-semibold whitespace-nowrap">Miscellaneous Fee</th>
+                            <th className="p-4 font-semibold whitespace-nowrap">Annual Charges</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
+                        </thead>
+                        <tbody className="divide-y divide-outline-variant/30 text-text-variant">
+                          {feeStructures.map((fee, index) => (
+                            <tr key={index} className="hover:bg-surface-containerLow/50 transition-colors">
+                              <td className="p-4 font-medium text-primary whitespace-nowrap">{fee.class}</td>
+                              <td className="p-4 whitespace-nowrap">Rs. {fee.m_fee || '---'}</td>
+                              <td className="p-4 text-secondary font-medium whitespace-nowrap">Rs. {fee.a_fee || 'Waived Off'}</td>
+                              <td className="p-4 whitespace-nowrap">Rs. {fee.r_fee || '---'}</td>
+                              <td className="p-4 whitespace-nowrap">Rs. {fee.ms_fee || '---'}</td>
+                              <td className="p-4 whitespace-nowrap">Rs. {fee.a_charges || '---'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <p className="text-text-variant">No fee structure data available</p>
+                  </CardContent>
+                </Card>
+              )}
             </div>
 
             <div>
               <h3 className="font-serif font-bold text-2xl text-primary mb-6">Transport Services</h3>
-              <Card>
-                <CardContent className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-l-primary">
-                  <div>
-                    <h4 className="text-xl font-bold text-primary mb-2">School Van Service</h4>
-                    <p className="text-text-variant">Safe and reliable transport for students.</p>
-                  </div>
-                  <div className="flex flex-wrap gap-8">
-                    <div>
-                      <p className="text-sm text-text-variant mb-1">Monthly Fee</p>
-                      <p className="text-2xl font-bold text-secondary">Rs. 4,000</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-text-variant mb-1">Coverage</p>
-                      <p className="text-2xl font-bold text-primary">Max 5 km radius</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              {loadingData ? (
+                <Card>
+                  <CardContent className="p-8 flex items-center justify-center gap-3">
+                    <Loader className="w-5 h-5 animate-spin text-primary" />
+                    <p className="text-text-variant">Loading transport info...</p>
+                  </CardContent>
+                </Card>
+              ) : transports.length > 0 ? (
+                <div className="space-y-4">
+                  {transports.map((transport, index) => (
+                    <Card key={index}>
+                      <CardContent className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-l-4 border-l-primary">
+                        <div>
+                          <h4 className="text-xl font-bold text-primary mb-2">{transport.title}</h4>
+                          <p className="text-text-variant">{transport.description || 'Safe and reliable service'}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-8">
+                          {transport.fee && (
+                            <div>
+                              <p className="text-sm text-text-variant mb-1">Monthly Fee</p>
+                              <p className="text-2xl font-bold text-secondary">Rs. {transport.fee}</p>
+                            </div>
+                          )}
+                          {transport.coverage && (
+                            <div>
+                              <p className="text-sm text-text-variant mb-1">Coverage</p>
+                              <p className="text-2xl font-bold text-primary">{transport.coverage}</p>
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card>
+                  <CardContent className="p-8 text-center">
+                    <p className="text-text-variant">No transport services available</p>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         )}

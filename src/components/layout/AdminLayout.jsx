@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Users, FileText, BookOpen, Menu, X, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, Users, FileText, BookOpen, Menu, X, LogOut, Settings, HelpCircle, DollarSign, Truck, Images } from 'lucide-react';
 import { cn } from '../ui/Button';
 
 export default function AdminLayout() {
@@ -11,6 +11,10 @@ export default function AdminLayout() {
     { name: 'Dashboard', href: '/admin', icon: <LayoutDashboard className="w-5 h-5" /> },
     { name: 'Admissions', href: '/admin/admissions', icon: <Users className="w-5 h-5" /> },
     { name: 'News Manager', href: '/admin/news', icon: <FileText className="w-5 h-5" /> },
+    { name: 'FAQ Manager', href: '/admin/faq', icon: <HelpCircle className="w-5 h-5" /> },
+    { name: 'Fee Structure', href: '/admin/fee-structure', icon: <DollarSign className="w-5 h-5" /> },
+    { name: 'Transport', href: '/admin/transport', icon: <Truck className="w-5 h-5" /> },
+    { name: 'Media Manager', href: '/admin/media', icon: <Images className="w-5 h-5" /> },
     { name: 'Curriculum', href: '/admin/curriculum', icon: <BookOpen className="w-5 h-5" /> },
     { name: 'School Settings', href: '/admin/settings', icon: <Settings className="w-5 h-5" /> },
   ];

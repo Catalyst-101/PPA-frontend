@@ -12,6 +12,10 @@ import AdminAdmissions from './pages/admin/AdminAdmissions';
 import AdminNews from './pages/admin/AdminNews';
 import AdminCurriculum from './pages/admin/AdminCurriculum';
 import AdminSettings from './pages/admin/AdminSettings';
+import AdminFAQ from './pages/admin/AdminFAQ';
+import AdminFeeStructure from './pages/admin/AdminFeeStructure';
+import AdminTransport from './pages/admin/AdminTransport';
+import AdminMedia from './pages/admin/AdminMedia';
 
 // Placeholder Pages
 const Placeholder = ({ title }) => (
@@ -41,6 +45,10 @@ function App() {
             <Route path="admissions" element={<AdminAdmissions />} />
             <Route path="news" element={<AdminNews />} />
             <Route path="curriculum" element={<AdminCurriculum />} />
+            <Route path="faq" element={<AdminFAQ />} />
+            <Route path="fee-structure" element={<AdminFeeStructure />} />
+            <Route path="transport" element={<AdminTransport />} />
+            <Route path="media" element={<AdminMedia />} />
             <Route path="settings" element={<AdminSettings />} />
           </Route>
         </Routes>
