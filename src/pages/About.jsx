@@ -1,7 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent } from '../components/ui/Card';
+import { Loader } from 'lucide-react';
+import { getAllMedia } from '../api/api';
 
 export default function About() {
+  const [media, setMedia] = useState(null);
+  const [loadingMedia, setLoadingMedia] = useState(true);
+
+  // Fetch media from backend
+  useEffect(() => {
+    const fetchMediaData = async () => {
+      try {
+        setLoadingMedia(true);
+        const response = await getAllMedia();
+        if (response.data.success) {
+          setMedia(response.data.data);
+        }
+      } catch (error) {
+        console.error('Failed to load media:', error);
+        setMedia(null);
+      } finally {
+        setLoadingMedia(false);
+      }
+    };
+
+    fetchMediaData();
+  }, []);
+
+  // Get image URL helper with fallback
+  const getImageUrl = (mediaPath, fallbackUrl) => {
+    if (!mediaPath) return fallbackUrl;
+    return mediaPath.startsWith('http') ? mediaPath : `http://localhost:5000${mediaPath}`;
+  };
+
+  // Get about_1 image
+  const getAbout1Image = () => {
+    return getImageUrl(
+      media?.about_1,
+      'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop'
+    );
+  };
+
+  // Get about_2 image (Dr. Al Hassan)
+  const getAbout2Image = () => {
+    return getImageUrl(
+      media?.about_2,
+      'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop'
+    );
+  };
+
+  // Get about_3 image (Mrs. Sarah Jenkins)
+  const getAbout3Image = () => {
+    return getImageUrl(
+      media?.about_3,
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop'
+    );
+  };
+
   return (
     <div className="bg-surface font-sans">
       <div className="bg-primary text-white py-16 px-6 text-center">
@@ -24,8 +79,19 @@ export default function About() {
               </p>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-surface-containerHighest rounded-sm overflow-hidden ghost-border">
-                 <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop" alt="School History" className="object-cover w-full h-full" />
+              <div className="aspect-square bg-surface-containerHighest rounded-sm overflow-hidden ghost-border flex items-center justify-center">
+                {loadingMedia ? (
+                  <Loader className="w-8 h-8 animate-spin text-primary" />
+                ) : (
+                  <img
+                    src={getAbout1Image()}
+                    alt="School History"
+                    className="object-cover w-full h-full"
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1000&auto=format&fit=crop';
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -70,8 +136,19 @@ export default function About() {
             {/* Owner/Founder */}
             <div className="flex flex-col md:flex-row gap-10 items-center">
               <div className="w-full md:w-1/3">
-                <div className="aspect-[3/4] bg-surface-containerHighest rounded-sm overflow-hidden ghost-border">
-                  <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" alt="Founder" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500" />
+                <div className="aspect-[3/4] bg-surface-containerHighest rounded-sm overflow-hidden ghost-border flex items-center justify-center">
+                  {loadingMedia ? (
+                    <Loader className="w-8 h-8 animate-spin text-primary" />
+                  ) : (
+                    <img
+                      src={getAbout2Image()}
+                      alt="Founder"
+                      className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop';
+                      }}
+                    />
+                  )}
                 </div>
               </div>
               <div className="w-full md:w-2/3">
@@ -91,8 +168,19 @@ export default function About() {
             {/* Principal */}
             <div className="flex flex-col md:flex-row-reverse gap-10 items-center">
               <div className="w-full md:w-1/3">
-                 <div className="aspect-[3/4] bg-surface-containerHighest rounded-sm overflow-hidden ghost-border">
-                  <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Principal" className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500" />
+                 <div className="aspect-[3/4] bg-surface-containerHighest rounded-sm overflow-hidden ghost-border flex items-center justify-center">
+                  {loadingMedia ? (
+                    <Loader className="w-8 h-8 animate-spin text-primary" />
+                  ) : (
+                    <img
+                      src={getAbout3Image()}
+                      alt="Principal"
+                      className="object-cover w-full h-full grayscale hover:grayscale-0 transition-all duration-500"
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop';
+                      }}
+                    />
+                  )}
                 </div>
               </div>
               <div className="w-full md:w-2/3 text-left md:text-right">

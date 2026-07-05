@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronDown, ChevronUp, BookOpen, Users, Compass, Globe } from 'lucide-react';
+import { ChevronDown, ChevronUp, BookOpen, Users, Compass, Globe, Loader } from 'lucide-react';
 import Button from '../components/ui/Button';
 import { Card, CardContent, CardTitle } from '../components/ui/Card';
+import { getAllMedia } from '../api/api';
 
+// Fallback local imports in case backend images fail
 import hero1 from '../assets/images/hero/1.jpeg';
 import hero2 from '../assets/images/hero/2.jpeg';
 import hero3 from '../assets/images/hero/3.jpeg';
@@ -19,51 +21,41 @@ import prog4 from '../assets/images/hero/4.jpeg';
 
 export default function Home() {
   const [openFAQ, setOpenFAQ] = useState(null);
-
-  const heroImages = [
-    hero1,
-    hero2,
-    hero3,
-    hero4,
-    hero5,
-    hero6,
-    hero7
-  ];
-
   const [currentImage, setCurrentImage] = useState(0);
+  const [media, setMedia] = useState(null);
+  const [loadingMedia, setLoadingMedia] = useState(true);
+  const [campusImage, setCampusImage] = useState(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
+  // Fallback hero images
+  const fallbackHeroImages = [hero1, hero2, hero3, hero4, hero5, hero6, hero7];
 
-    return () => clearInterval(interval);
-  }, []);
+  // Fallback program images
+  const fallbackProgramImages = [prog1, prog2, prog3, prog4];
 
   const programs = [
     {
       title: 'Pre School',
       grades: 'Playgroup, Reception 1, Reception 2',
       desc: 'A caring early learning environment where children begin their educational journey through play, discovery, language development, creativity, and social growth.',
-      image: prog1
+      mediaKey: 'program_1'
     },
     {
       title: 'Primary',
       grades: 'Grade 1 to Grade 6',
       desc: 'A strong foundation program for Grades 1 to 6, focused on core academic skills, confidence building, discipline, curiosity, and overall character development.',
-      image: prog2
+      mediaKey: 'program_2'
     },
     {
       title: 'Middle',
       grades: 'Grade 7 and Grade 8',
       desc: 'A balanced academic stage for Grades 7 and 8, helping students strengthen concepts, develop independent thinking, and prepare for higher-level studies.',
-      image: prog3
+      mediaKey: 'program_3'
     },
     {
       title: 'High',
       grades: 'Grade 9 and Grade 10',
       desc: 'A focused program for Grades 9 and 10, designed to prepare students for board examinations while building responsibility, confidence, and future academic readiness.',
-      image: prog4
+      mediaKey: 'program_4'
     }
   ];
 
@@ -77,18 +69,84 @@ export default function Home() {
     { q: 'How do I apply for admission?', a: 'You can apply online through our Admissions portal, accessible via the top navigation.' }
   ];
 
+  // Fetch media from backend
+  useEffect(() => {
+    const fetchMediaData = async () => {
+      try {
+        setLoadingMedia(true);
+        const response = await getAllMedia();
+        if (response.data.success) {
+          setMedia(response.data.data);
+        }
+      } catch (error) {
+        console.error('Failed to load media:', error);
+        setMedia(null);
+      } finally {
+        setLoadingMedia(false);
+      }
+    };
+
+    fetchMediaData();
+  }, []);
+
+  // Get hero images array
+  const heroImages = media
+    ? [
+        media.hero_1,
+        media.hero_2,
+        media.hero_3,
+        media.hero_4,
+        media.hero_5,
+        media.hero_6,
+        media.hero_7
+      ].filter(Boolean)
+    : [];
+
+  const displayHeroImages = heroImages.length > 0 ? heroImages : fallbackHeroImages;
+
+  // Hero carousel effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % displayHeroImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [displayHeroImages.length]);
+
+  // Get image URL helper
+  const getImageUrl = (mediaPath) => {
+    if (!mediaPath) return null;
+    return mediaPath.startsWith('http') ? mediaPath : `http://localhost:5000${mediaPath}`;
+  };
+
+  // Get program image with fallback
+  const getProgramImage = (mediaKey, fallbackIndex) => {
+    if (media && media[mediaKey]) {
+      return getImageUrl(media[mediaKey]);
+    }
+    return fallbackProgramImages[fallbackIndex];
+  };
+
+  // Get campus image
+  const getCampusImage = () => {
+    if (media && media.campus) {
+      return getImageUrl(media.campus);
+    }
+    return 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000&auto=format&fit=crop';
+  };
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative min-h-[80vh] flex flex-col items-center justify-center bg-gradient-to-br from-primary to-primary-container text-white text-center px-4 overflow-hidden">
 
         {/* Background Images */}
-        {heroImages.map((img, index) => (
+        {displayHeroImages.map((img, index) => (
           <div
             key={index}
             className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${index === currentImage ? 'opacity-25' : 'opacity-0'
               }`}
-            style={{ backgroundImage: `url(${img})` }}
+            style={{ backgroundImage: `url(${getImageUrl(img) || img})` }}
           ></div>
         ))}
 
@@ -140,11 +198,20 @@ export default function Home() {
 
           <div className="relative">
             <div className="aspect-[4/3] bg-surface-containerHighest rounded-sm overflow-hidden ghost-border relative z-10">
-              <img
-                src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000&auto=format&fit=crop"
-                alt="Campus View"
-                className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
-              />
+              {loadingMedia ? (
+                <div className="w-full h-full flex items-center justify-center bg-surface-containerLow">
+                  <Loader className="w-8 h-8 animate-spin text-primary" />
+                </div>
+              ) : (
+                <img
+                  src={getCampusImage()}
+                  alt="Campus View"
+                  className="object-cover w-full h-full hover:scale-105 transition-transform duration-700"
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000&auto=format&fit=crop';
+                  }}
+                />
+              )}
             </div>
 
             <div className="absolute -bottom-8 -left-8 w-48 h-48 bg-secondary/10 rounded-full blur-3xl -z-0"></div>
@@ -176,12 +243,19 @@ export default function Home() {
                 key={idx}
                 className="group flex flex-col sm:flex-row hover:-translate-y-2 transition-all duration-300 hover:shadow-xl border-t-4 sm:border-t-0 sm:border-l-4 sm:border-primary border-primary relative overflow-hidden h-full"
               >
-                <div className="h-56 sm:h-auto sm:w-2/5 shrink-0 overflow-hidden relative">
-                  <img
-                    src={prog.image}
-                    alt={prog.title}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
+                <div className="h-56 sm:h-auto sm:w-2/5 shrink-0 overflow-hidden relative bg-surface-containerLow flex items-center justify-center">
+                  {loadingMedia ? (
+                    <Loader className="w-8 h-8 animate-spin text-primary" />
+                  ) : (
+                    <img
+                      src={getProgramImage(prog.mediaKey, idx)}
+                      alt={prog.title}
+                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) => {
+                        e.target.src = fallbackProgramImages[idx];
+                      }}
+                    />
+                  )}
                   <div className="absolute inset-0 bg-black/35"></div>
                 </div>
                 <CardContent className="h-full flex flex-col pt-8 pb-8 px-6 sm:w-3/5">
