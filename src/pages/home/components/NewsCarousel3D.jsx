@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight, ArrowRight, Award, Info } from 'lucide-react
 import { cn } from '../../../components/ui/Button';
 
 export default function NewsCarousel3D() {
-  const [newsActiveIndex, setNewsActiveIndex] = useState(2); // starts in the middle of 5 items
+  const [newsActiveIndex, setNewsActiveIndex] = useState(2); // Starts in the middle of 5 items
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
 
   const newsItems = [
@@ -67,7 +67,9 @@ export default function NewsCarousel3D() {
   };
 
   const isMobile = windowWidth < 768;
-  const newsOffsetMultiplier = isMobile ? 65 : 90;
+  
+  // Compact multipliers to allow 5 cards to fit nicely on the screen without spilling out
+  const newsOffsetMultiplier = isMobile ? 55 : 70;
 
   return (
     <section className="py-20 px-6 bg-surface-containerLow overflow-hidden border-y border-outline-variant/10 relative">
@@ -82,7 +84,7 @@ export default function NewsCarousel3D() {
           className="text-center mb-10"
         >
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/10 text-secondary-fixedDim text-xs font-bold uppercase tracking-widest mb-3">
-            <Award className="w-3.5 h-3.5" />
+            <Award className="w-3.5 h-3.5 animate-bounce" />
             Latest Updates
           </div>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">
@@ -94,7 +96,7 @@ export default function NewsCarousel3D() {
         </motion.div>
 
         {/* 3D Carousel container */}
-        <div className="relative flex items-center justify-center h-[520px] w-full overflow-visible py-10 select-none">
+        <div className="relative flex items-center justify-center h-[540px] w-full overflow-visible py-10 select-none">
           {newsItems.map((item, idx) => {
             let offset = idx - newsActiveIndex;
             if (offset < -Math.floor(newsItems.length / 2)) {
@@ -104,6 +106,7 @@ export default function NewsCarousel3D() {
             }
 
             const isActive = offset === 0;
+            const absOffset = Math.abs(offset);
 
             return (
               <motion.div
@@ -113,24 +116,35 @@ export default function NewsCarousel3D() {
                 onDragEnd={handleNewsDrag}
                 animate={{
                   x: offset === 0 ? "0%" : `${offset * newsOffsetMultiplier}%`,
-                  scale: offset === 0 ? 1.03 : 0.88,
-                  opacity: offset === 0 ? 1 : Math.abs(offset) === 1 ? 0.65 : 0,
-                  rotateY: offset * -25,
-                  rotateZ: offset * 2.5,
-                  z: offset === 0 ? 100 : 0,
-                  zIndex: 20 - Math.abs(offset)
+                  scale: offset === 0 ? 1.03 : absOffset === 1 ? 0.88 : 0.74,
+                  opacity: offset === 0 ? 1 : absOffset === 1 ? 0.75 : absOffset === 2 ? 0.35 : 0,
+                  rotateY: offset * -20,
+                  rotateZ: offset * 1.5,
+                  z: offset === 0 ? 120 : absOffset === 1 ? 60 : 0,
+                  zIndex: 20 - absOffset
                 }}
+                whileHover={
+                  isActive 
+                    ? { 
+                        scale: 1.06, 
+                        y: -12, 
+                        boxShadow: "0 25px 50px -12px rgba(0, 17, 58, 0.25)" 
+                      } 
+                    : { 
+                        scale: absOffset === 1 ? 0.92 : 0.78 
+                      }
+                }
                 transition={{
                   type: "spring",
-                  stiffness: 280,
-                  damping: 24
+                  stiffness: 300,
+                  damping: 22
                 }}
                 onClick={() => {
                   if (offset !== 0) setNewsActiveIndex(idx);
                 }}
                 className={cn(
-                  "absolute w-full max-w-[320px] md:max-w-[380px] h-[410px] bg-surface-lowest rounded-2xl border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none",
-                  isActive ? "shadow-2xl shadow-primary/15 border-secondary/40 ring-1 ring-secondary/20" : "hover:shadow-md hover:border-outline-variant/30"
+                  "absolute w-full max-w-[320px] md:max-w-[370px] h-[420px] bg-surface-lowest rounded-2xl border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none transition-all duration-300 group",
+                  isActive ? "border-secondary/50 ring-2 ring-secondary/10" : "hover:border-outline-variant/40"
                 )}
                 style={{
                   transformStyle: "preserve-3d",
@@ -138,14 +152,14 @@ export default function NewsCarousel3D() {
                 }}
               >
                 {/* Top Image Section */}
-                <div className="relative h-44 w-full bg-surface-containerHighest shrink-0 pointer-events-none">
+                <div className="relative h-44 w-full bg-surface-containerHighest shrink-0 pointer-events-none overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  <span className="absolute top-4 left-4 bg-primary text-white text-[9px] tracking-widest font-bold uppercase py-1 px-3.5 rounded-full shadow-md">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+                  <span className="absolute top-4 left-4 bg-primary text-white text-[9px] tracking-widest font-bold uppercase py-1 px-3.5 rounded-full shadow-md transition-colors duration-300 group-hover:bg-secondary">
                     {item.tag}
                   </span>
                 </div>
@@ -156,7 +170,7 @@ export default function NewsCarousel3D() {
                     <span className="text-[10px] text-text-variant/60 font-semibold uppercase tracking-wider block mb-1">
                       {item.date}
                     </span>
-                    <h3 className="font-serif text-base md:text-lg font-bold text-primary mb-2 line-clamp-2 leading-snug">
+                    <h3 className="font-serif text-base md:text-lg font-bold text-primary mb-2 line-clamp-2 leading-snug transition-colors duration-300 group-hover:text-secondary">
                       {item.title}
                     </h3>
                     <p className="text-xs text-text-variant/85 leading-relaxed line-clamp-3 font-sans">
@@ -167,7 +181,7 @@ export default function NewsCarousel3D() {
                   <div className="mt-4 pt-3 border-t border-outline-variant/5">
                     <Link to="/news" className="inline-flex items-center gap-1.5 text-xs text-primary font-bold hover:text-secondary group/read">
                       Read Article
-                      <ArrowRight className="w-3 h-3 group-hover/read:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3.5 h-3.5 group-hover/read:translate-x-1.5 transition-transform" />
                     </Link>
                   </div>
                 </div>
@@ -177,11 +191,11 @@ export default function NewsCarousel3D() {
         </div>
 
         {/* Navigation Dot & Arrow Controls */}
-        <div className="flex flex-col items-center gap-4 -mt-4">
+        <div className="flex flex-col items-center gap-4 -mt-2">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setNewsActiveIndex((prev) => (prev - 1 + newsItems.length) % newsItems.length)}
-              className="p-2.5 rounded-full bg-white text-primary border border-outline-variant/15 hover:border-secondary hover:text-secondary transition-all shadow-sm"
+              className="p-2.5 rounded-full bg-white text-primary border border-outline-variant/15 hover:border-secondary hover:text-secondary hover:scale-105 active:scale-95 transition-all shadow-sm"
               aria-label="Previous News"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -203,16 +217,16 @@ export default function NewsCarousel3D() {
 
             <button
               onClick={() => setNewsActiveIndex((prev) => (prev + 1) % newsItems.length)}
-              className="p-2.5 rounded-full bg-white text-primary border border-outline-variant/15 hover:border-secondary hover:text-secondary transition-all shadow-sm"
+              className="p-2.5 rounded-full bg-white text-primary border border-outline-variant/15 hover:border-secondary hover:text-secondary hover:scale-105 active:scale-95 transition-all shadow-sm"
               aria-label="Next News"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
 
-          <p className="text-[11px] text-text-variant/50 italic flex items-center gap-1">
-            <Info className="w-3 h-3" />
-            Drag cards horizontally to rotate, or click background cards to bring to center.
+          <p className="text-[11px] text-text-variant/50 italic flex items-center gap-1 select-none">
+            <Info className="w-3 h-3 text-secondary/70" />
+            Drag cards horizontally, or click background cards to swap focus.
           </p>
         </div>
 
