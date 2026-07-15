@@ -67,7 +67,7 @@ export default function AffiliationsMarquee() {
       <div className="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-surface-containerLow to-transparent z-10 pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto px-6 mb-6">
-        <span className="text-secondary tracking-widest text-[10px] font-bold uppercase text-center block mb-2">Accredited & Registered With</span>
+        <span className="text-secondary tracking-widest text-[13px] font-bold uppercase text-center block mb-2">Accredited & Registered With</span>
       </div>
 
       {/* Outer scrolling track */}

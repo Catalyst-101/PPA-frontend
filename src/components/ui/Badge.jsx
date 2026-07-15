@@ -4,9 +4,9 @@ import { cn } from './Button';
 export function Badge({ children, variant = "default", className }) {
   const variants = {
     default: "bg-surface-containerHighest text-text-variant",
-    success: "bg-tertiary-fixed text-tertiary-fixed-variant", // Representing Approved
-    warning: "bg-secondary-container text-secondary", // Representing Pending
-    danger: "bg-error-container text-on-error-container", // Representing Rejected
+    success: "bg-tertiary-fixed text-tertiary-fixed-variant",
+    warning: "bg-secondary-container text-secondary",
+    danger: "bg-error-container text-on-error-container",
     primary: "bg-primary-fixed text-on-primary-fixed",
   };
 

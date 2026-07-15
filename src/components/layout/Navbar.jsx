@@ -39,13 +39,16 @@ function Navbar() {
     { name: 'Grade 10', path: '/curriculum/grade-10' }
   ];
 
-  const mainLinks = [
+  // Re-ordered links array
+  const mainLinksBefore = [
     { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
+    { name: 'About', path: '/about' }
+  ];
+
+  const mainLinksAfter = [
     { name: 'Student Life', path: '/student-life' },
     { name: 'News', path: '/news' },
-    { name: 'Contact', path: '/contact' },
-    { name: 'Admin', path: '/admin' }
+    { name: 'Contact', path: '/contact' }
   ];
 
   const isPathActive = (paths) => {
@@ -71,49 +74,38 @@ function Navbar() {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 items-center">
-          {mainLinks.map((link) => (
-            link.name === 'Admin' ? (
-              <a
-                key={link.name}
-                href="http://localhost:5174/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-md font-medium transition-colors hover:text-secondary relative text-text-variant"
-              >
-                {link.name}
-              </a>
-            ) : (
-              <Link
-                key={link.name}
-                to={link.path}
-                className={cn(
-                  "text-md font-medium transition-colors hover:text-secondary relative",
-                  location.pathname === link.path ? "text-secondary" : "text-text-variant"
-                )}
-              >
-                {link.name}
-              </Link>
-            )
+          {/* Main Links (Before Admissions & Curriculum) */}
+          {mainLinksBefore.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={cn(
+                "text-md font-medium transition-colors hover:text-secondary relative",
+                location.pathname === link.path ? "text-secondary" : "text-text-variant"
+              )}
+            >
+              {link.name}
+            </Link>
           ))}
 
           {/* Admissions Dropdown */}
           <div className="relative group">
             <button
               className={cn(
-                "text-md font-medium transition-colors hover:text-secondary flex items-center gap-1",
+                "text-md font-medium transition-colors hover:text-secondary flex items-center gap-1.5 py-2",
                 isPathActive(['/admissions']) ? "text-secondary" : "text-text-variant"
               )}
             >
               Admissions
-              <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+              <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
             </button>
-            <div className="absolute left-0 mt-0 w-48 bg-surface border border-outline-variant/30 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50">
+            <div className="absolute left-1/2 -translate-x-1/2 mt-1 w-52 bg-surface border border-outline-variant/30 rounded-xl shadow-xl opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 py-2.5 z-50">
               {admissionsDropdown.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "block px-4 py-2 text-sm font-medium transition-colors hover:bg-surface-containerLow",
+                    "block px-5 py-2.5 text-sm font-medium transition-colors duration-200 hover:bg-surface-containerLow",
                     location.pathname === item.path ? "text-secondary bg-surface-containerLow" : "text-text-variant"
                   )}
                 >
@@ -127,20 +119,20 @@ function Navbar() {
           <div className="relative group">
             <button
               className={cn(
-                "text-md font-medium transition-colors hover:text-secondary flex items-center gap-1",
+                "text-md font-medium transition-colors hover:text-secondary flex items-center gap-1.5 py-2",
                 isPathActive(['/curriculum']) ? "text-secondary" : "text-text-variant"
               )}
             >
               Curriculum
-              <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+              <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
             </button>
-            <div className="absolute left-0 mt-0 w-48 bg-surface border border-outline-variant/30 rounded-sm shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 py-2 z-50 max-h-96 overflow-y-auto">
+            <div className="absolute left-1/2 -translate-x-1/2 mt-1 w-52 bg-surface border border-outline-variant/30 rounded-xl shadow-xl opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 py-2.5 z-50 max-h-80 overflow-y-auto scrollbar-thin scrollbar-thumb-outline-variant/20 scrollbar-track-transparent">
               {curriculumDropdown.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
                   className={cn(
-                    "block px-4 py-2 text-sm font-medium transition-colors hover:bg-surface-containerLow",
+                    "block px-5 py-2.5 text-sm font-medium transition-colors duration-200 hover:bg-surface-containerLow",
                     location.pathname === item.path ? "text-secondary bg-surface-containerLow" : "text-text-variant"
                   )}
                 >
@@ -149,6 +141,20 @@ function Navbar() {
               ))}
             </div>
           </div>
+
+          {/* Main Links (After Admissions & Curriculum) */}
+          {mainLinksAfter.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={cn(
+                "text-md font-medium transition-colors hover:text-secondary relative",
+                location.pathname === link.path ? "text-secondary" : "text-text-variant"
+              )}
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
 
         {/* Mobile Toggle */}
@@ -159,76 +165,80 @@ function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full glass-dark text-white border-t border-white/10 flex flex-col py-4 max-h-96 overflow-y-auto">
-          {mainLinks.map((link) => (
-            link.name === 'Admin' ? (
-              <a
-                key={link.name}
-                href="http://localhost:5174/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-6 py-3 font-medium hover:bg-white/10 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </a>
-            ) : (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="px-6 py-3 font-medium hover:bg-white/10 transition-colors"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </Link>
-            )
+        <div className="md:hidden absolute top-full left-0 w-full glass-dark text-white border-t border-white/10 flex flex-col py-4 max-h-[80vh] overflow-y-auto shadow-2xl">
+          {/* Home & About */}
+          {mainLinksBefore.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className="px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </Link>
           ))}
 
           {/* Mobile Admissions */}
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'admissions' ? null : 'admissions')}
-            className="px-6 py-3 font-medium hover:bg-white/10 transition-colors flex items-center justify-between"
-          >
-            Admissions
-            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === 'admissions' ? 'rotate-180' : '')} />
-          </button>
-          {openDropdown === 'admissions' && (
-            <div className="bg-white/5 border-l-2 border-white/20">
-              {admissionsDropdown.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className="block px-9 py-2 text-sm hover:bg-white/10 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          )}
+          <div>
+            <button
+              onClick={() => setOpenDropdown(openDropdown === 'admissions' ? null : 'admissions')}
+              className="w-full px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors flex items-center justify-between"
+            >
+              Admissions
+              <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openDropdown === 'admissions' ? 'rotate-180' : '')} />
+            </button>
+            {openDropdown === 'admissions' && (
+              <div className="bg-white/5 border-l-2 border-white/20">
+                {admissionsDropdown.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="block px-10 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Mobile Curriculum */}
-          <button
-            onClick={() => setOpenDropdown(openDropdown === 'curriculum' ? null : 'curriculum')}
-            className="px-6 py-3 font-medium hover:bg-white/10 transition-colors flex items-center justify-between"
-          >
-            Curriculum
-            <ChevronDown className={cn("w-4 h-4 transition-transform", openDropdown === 'curriculum' ? 'rotate-180' : '')} />
-          </button>
-          {openDropdown === 'curriculum' && (
-            <div className="bg-white/5 border-l-2 border-white/20">
-              {curriculumDropdown.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className="block px-9 py-2 text-sm hover:bg-white/10 transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          )}
+          <div>
+            <button
+              onClick={() => setOpenDropdown(openDropdown === 'curriculum' ? null : 'curriculum')}
+              className="w-full px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors flex items-center justify-between"
+            >
+              Curriculum
+              <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openDropdown === 'curriculum' ? 'rotate-180' : '')} />
+            </button>
+            {openDropdown === 'curriculum' && (
+              <div className="bg-white/5 border-l-2 border-white/20">
+                {curriculumDropdown.map((item) => (
+                  <Link
+                    key={item.name}
+                    to={item.path}
+                    className="block px-10 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Remaining Links */}
+          {mainLinksAfter.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className="px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
       )}
     </nav>

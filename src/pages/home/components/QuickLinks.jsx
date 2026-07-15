@@ -41,7 +41,7 @@ export default function QuickLinks() {
               <div className="p-3 bg-secondary/10 text-secondary-fixedDim rounded-xl w-fit mb-6 transition-colors duration-300 group-hover:bg-secondary group-hover:text-white">
                 <UserPlus className="w-6 h-6" />
               </div>
-              <Badge variant="warning" className="w-fit mb-2 text-[10px]">ADMISSIONS ACTIVE</Badge>
+              <Badge variant="warning" className="w-fit mb-2 text-[10px] text-white">ADMISSIONS ACTIVE</Badge>
               <CardTitle className="text-2xl font-serif text-primary font-bold mb-4">Register Online</CardTitle>
               <p className="text-text-variant/80 text-sm leading-relaxed mb-6 flex-grow">
                 Submit enrollment applications, upload transcripts, and track processing steps securely in our parent portal.

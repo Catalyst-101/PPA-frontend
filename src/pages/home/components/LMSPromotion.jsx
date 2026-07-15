@@ -36,10 +36,9 @@ export default function LMSPromotion() {
         
         {/* Column A: App Info & Stores */}
         <div className="lg:col-span-7 flex flex-col items-start text-left">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-secondary/20 text-secondary text-xs font-bold uppercase tracking-widest mb-6">
-            <Smartphone className="w-3.5 h-3.5 animate-pulse" />
-            Smart Campus Link
-          </div>
+          <span className="text-secondary tracking-widest text-sm font-bold uppercase mb-2 block">
+            Smart Learning, Anytime, Anywhere
+          </span>
 
           <h2 className="text-4xl md:text-6xl font-serif font-bold leading-tight mb-6">
             Pen & Page LMS <br />& Mobile App

@@ -10,6 +10,7 @@ import NewsCarousel3D from './components/NewsCarousel3D';
 import Programs from './components/Programs';
 import LMSPromotion from './components/LMSPromotion';
 import FAQ from './components/FAQ';
+import CTA from './components/CTA';
 
 export default function Home() {
   return (
@@ -40,6 +41,9 @@ export default function Home() {
 
       {/* 9. FAQs Accordion Hub */}
       <FAQ />
+
+      {/* 10. CTA */}
+      <CTA />
     </div>
   );
 }

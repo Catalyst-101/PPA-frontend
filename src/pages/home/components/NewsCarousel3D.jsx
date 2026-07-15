@@ -83,10 +83,9 @@ export default function NewsCarousel3D() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/10 text-secondary-fixedDim text-xs font-bold uppercase tracking-widest mb-3">
-            <Award className="w-3.5 h-3.5 animate-bounce" />
+          <span className="text-secondary tracking-widest text-sm font-bold uppercase mb-2 block">
             Latest Updates
-          </div>
+          </span>
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-primary mb-4">
             News & Campus Events
           </h2>

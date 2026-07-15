@@ -28,7 +28,7 @@ export default function About() {
     >
       <div className="container mx-auto max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <motion.div variants={fadeInUp}>
-          <span className="text-secondary tracking-widest text-sm font-bold uppercase mb-2 block">About Us</span>
+          <span className="text-secondary tracking-widest text-lg font-bold uppercase mb-2 block">About Us</span>
 
           <h2 className="text-4xl font-serif font-bold text-primary mb-6">
             Where Learning Begins with Purpose.
