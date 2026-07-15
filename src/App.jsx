@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicLayout from './components/layout/PublicLayout';
-import Home from './pages/Home';
+import Home from './pages/home/Home';
 import ApplyNow from './pages/admissions/ApplyNow';
 import FeeStructure from './pages/admissions/FeeStructure';
 import Uniform from './pages/admissions/Uniform';
