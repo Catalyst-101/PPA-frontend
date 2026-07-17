@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { FaWhatsapp } from 'react-icons/fa';
 import Topbar from './Topbar';
 import Navbar from './Navbar';
 import API from '../../api/api';
@@ -68,6 +69,26 @@ function PublicLayout() {
           &copy; {new Date().getFullYear()} Pen & Page School. All rights reserved.
         </div>
       </footer>
+
+      {/* Global Floating WhatsApp Button */}
+      <a
+        href="https://wa.me/923480230807?text=Hello%20Pen%20%26%20Page%20School%2C%20I%20have%20an%20inquiry%20regarding%20admissions."
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-50 flex items-center group cursor-pointer"
+        aria-label="Contact school on WhatsApp"
+      >
+        {/* Tooltip */}
+        <div className="bg-primary text-white text-xs font-semibold py-2 px-3 rounded-lg shadow-md mr-3 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none whitespace-nowrap border border-white/10 hidden sm:block">
+          Chat with us
+        </div>
+
+        {/* Pulse effect wrapper */}
+        <div className="relative w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-lg shadow-[#25D366]/30 group-hover:scale-110 active:scale-95 transition-all duration-300">
+          <span className="absolute inset-0 rounded-full bg-[#25D366]/40 animate-ping opacity-75"></span>
+          <FaWhatsapp className="w-7 h-7 text-white relative z-10" />
+        </div>
+      </a>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import About from './pages/About';
 import ClassCurriculum from './pages/curriculum/ClassCurriculum';
 import StudentLife from './pages/StudentLife';
 import News from './pages/News';
+import Contact from './pages/Contact';
 
 // Placeholder Pages
 const Placeholder = ({ title }) => (
@@ -31,7 +32,7 @@ function App() {
             <Route path="curriculum/:classSlug" element={<ClassCurriculum />} />
             <Route path="student-life" element={<StudentLife />} />
             <Route path="news" element={<News />} />
-            <Route path="contact" element={<Placeholder title="Contact Us" />} />
+            <Route path="contact" element={<Contact />} />
           </Route>
         </Routes>
       </div>
