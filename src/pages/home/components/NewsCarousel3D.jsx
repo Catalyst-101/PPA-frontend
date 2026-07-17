@@ -67,9 +67,17 @@ export default function NewsCarousel3D() {
   };
 
   const isMobile = windowWidth < 768;
-  
+
   // Compact multipliers to allow 5 cards to fit nicely on the screen without spilling out
   const newsOffsetMultiplier = isMobile ? 55 : 70;
+
+  // One smooth, low-bounce spring reused everywhere so all properties move in sync
+  const smoothTransition = {
+    type: "spring",
+    stiffness: 220,
+    damping: 28,
+    mass: 0.9
+  };
 
   return (
     <section className="py-20 px-6 bg-surface-containerLow overflow-hidden border-y border-outline-variant/10 relative">
@@ -94,8 +102,11 @@ export default function NewsCarousel3D() {
           </p>
         </motion.div>
 
-        {/* 3D Carousel container */}
-        <div className="relative flex items-center justify-center h-[540px] w-full overflow-visible py-10 select-none">
+        {/* 3D Carousel container — perspective lives here so all cards share one consistent 3D space */}
+        <div
+          className="relative flex items-center justify-center h-[540px] w-full overflow-visible py-10 select-none"
+          style={{ perspective: "1400px" }}
+        >
           {newsItems.map((item, idx) => {
             let offset = idx - newsActiveIndex;
             if (offset < -Math.floor(newsItems.length / 2)) {
@@ -112,6 +123,8 @@ export default function NewsCarousel3D() {
                 key={item.id}
                 drag="x"
                 dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.15}
+                dragTransition={{ bounceStiffness: 400, bounceDamping: 40 }}
                 onDragEnd={handleNewsDrag}
                 animate={{
                   x: offset === 0 ? "0%" : `${offset * newsOffsetMultiplier}%`,
@@ -123,31 +136,29 @@ export default function NewsCarousel3D() {
                   zIndex: 20 - absOffset
                 }}
                 whileHover={
-                  isActive 
-                    ? { 
-                        scale: 1.06, 
-                        y: -12, 
-                        boxShadow: "0 25px 50px -12px rgba(0, 17, 58, 0.25)" 
-                      } 
-                    : { 
-                        scale: absOffset === 1 ? 0.92 : 0.78 
-                      }
+                  isActive
+                    ? {
+                      scale: 1.06,
+                      y: -12,
+                      boxShadow: "0 25px 50px -12px rgba(0, 17, 58, 0.25)"
+                    }
+                    : {
+                      scale: absOffset === 1 ? 0.92 : 0.78
+                    }
                 }
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 22
-                }}
+                transition={smoothTransition}
                 onClick={() => {
                   if (offset !== 0) setNewsActiveIndex(idx);
                 }}
                 className={cn(
-                  "absolute w-full max-w-[320px] md:max-w-[370px] h-[420px] bg-surface-lowest rounded-2xl border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none transition-all duration-300 group",
+                  "absolute w-full max-w-[320px] md:max-w-[370px] h-[420px] bg-surface-lowest border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none transition-colors duration-300 group",
                   isActive ? "border-secondary/50 ring-2 ring-secondary/10" : "hover:border-outline-variant/40"
                 )}
                 style={{
-                  transformStyle: "preserve-3d",
-                  perspective: "1200px"
+                  backfaceVisibility: "hidden",
+                  WebkitBackfaceVisibility: "hidden",
+                  willChange: "transform, opacity",
+                  transformStyle: "preserve-3d"
                 }}
               >
                 {/* Top Image Section */}
