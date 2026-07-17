@@ -62,7 +62,7 @@ export default function AdCarousel() {
 
   return (
     <section
-      className="relative w-full min-h-[750px] lg:h-[85vh] bg-black overflow-hidden select-none"
+      className="relative w-full min-h-[400px] sm:min-h-[550px] lg:min-h-[750px] lg:h-[85vh] bg-black overflow-hidden select-none"
       onMouseEnter={() => setIsAdHovered(true)}
       onMouseLeave={() => setIsAdHovered(false)}
     >

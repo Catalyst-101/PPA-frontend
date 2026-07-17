@@ -116,7 +116,7 @@ export default function ApplyNow() {
               </Card>
             ) : (
               <Card>
-                <CardContent className="p-8">
+                <CardContent className="p-5 md:p-8">
                   <h2 className="text-2xl font-serif font-bold text-primary mb-6">Online Admission Form</h2>
                   
                   {error && (

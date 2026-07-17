@@ -104,8 +104,8 @@ export default function LMSPromotion() {
         </div>
 
         {/* Column B: Scaled CSS Phone Mockup */}
-        <div className="lg:col-span-5 flex justify-center items-center w-full">
-          <div className="w-[310px] h-[600px] bg-[#0c1424] border-[10px] border-slate-800 rounded-[46px] shadow-2xl relative overflow-hidden flex flex-col justify-between p-4.5 select-none">
+        <div className="lg:col-span-5 flex justify-center items-center w-full mt-8 lg:mt-0">
+          <div className="w-[280px] h-[540px] sm:w-[310px] sm:h-[600px] bg-[#0c1424] border-[8px] sm:border-[10px] border-slate-800 rounded-[38px] sm:rounded-[46px] shadow-2xl relative overflow-hidden flex flex-col justify-between p-4 sm:p-4.5 select-none">
 
             {/* Notch Camera */}
             <div className="w-28 h-4.5 bg-slate-800 rounded-b-2xl absolute top-0 left-1/2 -translate-x-1/2 z-30"></div>
@@ -226,7 +226,7 @@ export default function LMSPromotion() {
                   animate={{ y: 0, opacity: 1, scale: 1 }}
                   exit={{ y: -35, opacity: 0, scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 260, damping: 20 }}
-                  className="absolute w-full p-2.5 bg-secondary border border-secondary-fixedDim rounded-xl text-primary flex items-start gap-2.5 shadow-lg"
+                  className="absolute inset-x-1 p-2.5 bg-secondary border border-secondary-fixedDim rounded-xl text-primary flex items-start gap-2.5 shadow-lg"
                 >
                   <div className="bg-primary text-white p-1 rounded-lg shrink-0">
                     <Bell className="w-3.5 h-3.5" />

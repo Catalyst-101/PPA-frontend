@@ -104,10 +104,10 @@ export default function FAQ() {
             </p>
 
             <Link
-              to="/faqs"
+              to="/contact"
               className="inline-flex items-center text-sm font-medium text-secondary hover:text-white transition-colors"
             >
-              Go to FAQs
+              Contact Us
               <span className="ml-2">&rarr;</span>
             </Link>
           </motion.div>

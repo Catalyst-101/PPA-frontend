@@ -52,7 +52,7 @@ export default function QuickLinks() {
       badge: { label: 'TUITION & CRITERIA', variant: 'default', className: '' },
       title: 'Admission Portal',
       desc: 'Explore curriculum options, age limits, required legal documentation, and detailed quarterly tuition fee breakdowns.',
-      href: '/admissions/fee-structure',
+      href: '/admissions',
       cta: 'Read Guidelines',
       accent: 'slate',
       borderClass: 'border-t-slate-800',

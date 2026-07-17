@@ -29,22 +29,26 @@ export default function Programs() {
     {
       title: 'Pre School',
       grades: 'Playgroup, Reception 1, Reception 2',
-      desc: 'A caring early learning environment where children begin their educational journey through play, discovery, language development, creativity, and social growth.'
+      desc: 'A caring early learning environment where children begin their educational journey through play, discovery, language development, creativity, and social growth.',
+      href: '/curriculum/playgroup'
     },
     {
       title: 'Primary',
       grades: 'Grade 1 to Grade 6',
-      desc: 'A strong foundation program for Grades 1 to 6, focused on core academic skills, confidence building, discipline, curiosity, and overall character development.'
+      desc: 'A strong foundation program for Grades 1 to 6, focused on core academic skills, confidence building, discipline, curiosity, and overall character development.',
+      href: '/curriculum/grade-1'
     },
     {
       title: 'Middle',
       grades: 'Grade 7 and Grade 8',
-      desc: 'A balanced academic stage for Grades 7 and 8, helping students strengthen concepts, develop independent thinking, and prepare for higher-level studies.'
+      desc: 'A balanced academic stage for Grades 7 and 8, helping students strengthen concepts, develop independent thinking, and prepare for higher-level studies.',
+      href: '/curriculum/grade-7'
     },
     {
       title: 'High',
       grades: 'Grade 9 and Grade 10',
-      desc: 'A focused program for Grades 9 and 10, designed to prepare students for board examinations while building responsibility, confidence, and future academic readiness.'
+      desc: 'A focused program for Grades 9 and 10, designed to prepare students for board examinations while building responsibility, confidence, and future academic readiness.',
+      href: '/curriculum/grade-9'
     }
   ];
 
@@ -98,7 +102,7 @@ export default function Programs() {
                   </p>
 
                   <Link
-                    to="/curriculum"
+                    to={prog.href}
                     className="text-primary font-medium hover:text-secondary transition-colors inline-flex items-center text-sm mt-auto"
                   >
                     View Details <span className="ml-2 group-hover:translate-x-1 transition-transform">&rarr;</span>

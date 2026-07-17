@@ -8,6 +8,7 @@ import ClassCurriculum from './pages/curriculum/ClassCurriculum';
 import StudentLife from './pages/StudentLife';
 import News from './pages/News';
 import Contact from './pages/Contact';
+import Curriculum from './pages/Curriculum';
 
 // Placeholder Pages
 const Placeholder = ({ title }) => (
@@ -29,6 +30,7 @@ function App() {
             <Route path="admissions" element={<Admissions />} />
             <Route path="admissions/apply" element={<ApplyNow />} />
             {/* Curriculum Routes */}
+            <Route path="curriculum" element={<Curriculum />} />
             <Route path="curriculum/:classSlug" element={<ClassCurriculum />} />
             <Route path="student-life" element={<StudentLife />} />
             <Route path="news" element={<News />} />

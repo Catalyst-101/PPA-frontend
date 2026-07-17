@@ -49,7 +49,7 @@ function Topbar() {
 
         <a
           href={`mailto:${emailDisplay}`}
-          className="flex items-center gap-2 hover:text-secondary transition-colors"
+          className="hidden sm:flex items-center gap-2 hover:text-secondary transition-colors"
         >
           <FaEnvelope className="w-4 h-4" />
           <span>{emailDisplay}</span>
@@ -60,7 +60,7 @@ function Topbar() {
       <div className="flex items-center gap-6">
 
         {/* Social Icons */}
-        <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-4">
 
           <a
             href={facebookHref}
