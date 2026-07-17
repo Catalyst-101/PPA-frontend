@@ -93,7 +93,7 @@ export default function Hero() {
             </Button>
           </Link>
 
-          <Link to="/admissions">
+          <Link to="/admissions/apply">
             <Button 
               variant="outline" 
               className="px-8 py-4 text-base font-bold tracking-wide text-white border-white/40 hover:text-primary hover:bg-white hover:border-white transition-all transform hover:-translate-y-0.5 active:translate-y-0"

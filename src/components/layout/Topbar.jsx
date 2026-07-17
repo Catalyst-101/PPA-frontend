@@ -87,7 +87,7 @@ function Topbar() {
 
         {/* Admission Button */}
         <Link
-          to="/admissions"
+          to="/admissions/apply"
           className="bg-secondary text-white shadow-ambient hover:bg-secondary-fixedDim hover:-translate-y-0.5 px-5 py-1 text-sm rounded-md font-semibold transition-all duration-300"
         >
           Apply Now

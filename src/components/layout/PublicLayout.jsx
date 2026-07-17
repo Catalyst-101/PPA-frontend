@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Link } from 'react-router-dom';
 import Topbar from './Topbar';
 import Navbar from './Navbar';
 import API from '../../api/api';
@@ -43,16 +43,16 @@ function PublicLayout() {
           <div>
             <h4 className="font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-sm text-white/70">
-              <li><a href="/about" className="hover:text-secondary transition-colors">About Us</a></li>
-              <li><a href="/curriculum" className="hover:text-secondary transition-colors">Curriculum</a></li>
-              <li><a href="/news" className="hover:text-secondary transition-colors">News</a></li>
+              <li><Link to="/about" className="hover:text-secondary transition-colors">About Us</Link></li>
+              <li><Link to="/curriculum" className="hover:text-secondary transition-colors">Curriculum</Link></li>
+              <li><Link to="/news" className="hover:text-secondary transition-colors">News</Link></li>
             </ul>
           </div>
           <div>
             <h4 className="font-bold mb-4">Admissions</h4>
             <ul className="space-y-2 text-sm text-white/70">
-              <li><a href="/admissions" className="hover:text-secondary transition-colors">Apply Now</a></li>
-              <li><a href="/admissions" className="hover:text-secondary transition-colors">Fees Structure</a></li>
+              <li><Link to="/admissions/apply" className="hover:text-secondary transition-colors">Apply Now</Link></li>
+              <li><Link to="/admissions" className="hover:text-secondary transition-colors">Fees Structure</Link></li>
             </ul>
           </div>
           <div>

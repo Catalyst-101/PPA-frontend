@@ -17,11 +17,6 @@ function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const admissionsDropdown = [
-    { name: 'Apply Now', path: '/admissions/apply' },
-    { name: 'Fee Structure', path: '/admissions/fee-structure' },
-    { name: 'Uniform', path: '/admissions/uniform' }
-  ];
 
   const curriculumDropdown = [
     { name: 'Playgroup', path: '/curriculum/playgroup' },
@@ -88,32 +83,16 @@ function Navbar() {
             </Link>
           ))}
 
-          {/* Admissions Dropdown */}
-          <div className="relative group">
-            <button
-              className={cn(
-                "text-md font-medium transition-colors hover:text-secondary flex items-center gap-1.5 py-2",
-                isPathActive(['/admissions']) ? "text-secondary" : "text-text-variant"
-              )}
-            >
-              Admissions
-              <ChevronDown className="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" />
-            </button>
-            <div className="absolute left-1/2 -translate-x-1/2 mt-1 w-52 bg-surface border border-outline-variant/30 rounded-xl shadow-xl opacity-0 invisible translate-y-2 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-all duration-300 py-2.5 z-50">
-              {admissionsDropdown.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={cn(
-                    "block px-5 py-2.5 text-sm font-medium transition-colors duration-200 hover:bg-surface-containerLow",
-                    location.pathname === item.path ? "text-secondary bg-surface-containerLow" : "text-text-variant"
-                  )}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </div>
+          {/* Admissions Link */}
+          <Link
+            to="/admissions"
+            className={cn(
+              "text-md font-medium transition-colors hover:text-secondary relative",
+              isPathActive(['/admissions']) ? "text-secondary" : "text-text-variant"
+            )}
+          >
+            Admissions
+          </Link>
 
           {/* Curriculum Dropdown */}
           <div className="relative group">
@@ -178,30 +157,14 @@ function Navbar() {
             </Link>
           ))}
 
-          {/* Mobile Admissions */}
-          <div>
-            <button
-              onClick={() => setOpenDropdown(openDropdown === 'admissions' ? null : 'admissions')}
-              className="w-full px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors flex items-center justify-between"
-            >
-              Admissions
-              <ChevronDown className={cn("w-4 h-4 transition-transform duration-300", openDropdown === 'admissions' ? 'rotate-180' : '')} />
-            </button>
-            {openDropdown === 'admissions' && (
-              <div className="bg-white/5 border-l-2 border-white/20">
-                {admissionsDropdown.map((item) => (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className="block px-10 py-2.5 text-sm font-medium hover:bg-white/10 transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* Mobile Admissions Link */}
+          <Link
+            to="/admissions"
+            className="px-6 py-3.5 font-semibold tracking-wide hover:bg-white/10 transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Admissions
+          </Link>
 
           {/* Mobile Curriculum */}
           <div>

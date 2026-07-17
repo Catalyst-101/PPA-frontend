@@ -41,7 +41,7 @@ export default function FinalCTASection() {
 
           {/* CTA Block (Padded from Right) */}
           <div className="relative z-10 shrink-0 md:pr-40 w-full md:w-auto flex justify-center md:justify-end">
-            <Link to="/admissions" className="w-full sm:w-auto">
+            <Link to="/admissions/apply" className="w-full sm:w-auto">
               <Button
                 variant="primary"
                 className="w-full sm:w-auto px-12 md:px-16 py-4 text-base font-bold tracking-wide text-white border-white/40 hover:text-primary hover:bg-white hover:border-white transition-all transform hover:-translate-y-0.5 active:translate-y-0"

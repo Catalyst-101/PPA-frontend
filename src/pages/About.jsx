@@ -39,6 +39,9 @@ export default function About() {
           transition={{ duration: 0.7, ease: 'easeOut' }}
           className="relative z-10 max-w-3xl mx-auto"
         >
+          <span className="text-secondary-container tracking-[0.2em] text-sm font-bold uppercase mb-4 block">
+            Learn Our Story
+          </span>
           <h1 className="text-5xl md:text-4xl font-serif font-bold text-white mb-6 leading-tight">
             About Pen & Page
           </h1>

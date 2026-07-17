@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import PublicLayout from './components/layout/PublicLayout';
 import Home from './pages/home/Home';
+import Admissions from './pages/Admissions';
 import ApplyNow from './pages/admissions/ApplyNow';
-import FeeStructure from './pages/admissions/FeeStructure';
-import Uniform from './pages/admissions/Uniform';
 import About from './pages/About';
 import ClassCurriculum from './pages/curriculum/ClassCurriculum';
 import StudentLife from './pages/StudentLife';
@@ -26,9 +25,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             {/* Admissions Routes */}
+            <Route path="admissions" element={<Admissions />} />
             <Route path="admissions/apply" element={<ApplyNow />} />
-            <Route path="admissions/fee-structure" element={<FeeStructure />} />
-            <Route path="admissions/uniform" element={<Uniform />} />
             {/* Curriculum Routes */}
             <Route path="curriculum/:classSlug" element={<ClassCurriculum />} />
             <Route path="student-life" element={<StudentLife />} />

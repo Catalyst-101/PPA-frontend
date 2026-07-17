@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Card, CardContent } from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
 import { CheckCircle2, AlertCircle, Loader } from 'lucide-react';
-import { submitContact } from '../../api/api';
 
 export default function ApplyNow() {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -26,39 +25,27 @@ export default function ApplyNow() {
     'Grade 6', 'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10'
   ];
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
-    try {
-      const response = await submitContact({
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        message: `Admission Application\nStudent Name: ${formData.name}\nDOB: ${formData.dob}\nGender: ${formData.gender}\nClass: ${formData.class}\nParent Name: ${formData.parentName}\nAddress: ${formData.address}\nPrevious School: ${formData.previousSchool}`
+    // Simulate API submission delay
+    setTimeout(() => {
+      setIsSubmitted(true);
+      setFormData({
+        name: '',
+        dob: '',
+        gender: '',
+        class: '',
+        parentName: '',
+        phone: '',
+        email: '',
+        address: '',
+        previousSchool: ''
       });
-
-      if (response.data.success) {
-        setIsSubmitted(true);
-        setFormData({
-          name: '',
-          dob: '',
-          gender: '',
-          class: '',
-          parentName: '',
-          phone: '',
-          email: '',
-          address: '',
-          previousSchool: ''
-        });
-      }
-    } catch (err) {
-      setError(err.response?.data?.message || 'Failed to submit application. Please try again.');
-      console.error('Submit error:', err);
-    } finally {
       setLoading(false);
-    }
+    }, 1000);
   };
 
   const handleChange = (e) => {
