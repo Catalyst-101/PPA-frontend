@@ -63,8 +63,8 @@ export default function AffiliationsMarquee() {
   return (
     <section className="bg-surface-containerLow py-12 border-y border-outline-variant/10 relative overflow-hidden select-none">
       {/* Soft Left and Right Gradient Fades to mask entry and exit */}
-      <div className="absolute left-0 top-0 bottom-0 w-28 bg-gradient-to-r from-surface-containerLow to-transparent z-10 pointer-events-none"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-28 bg-gradient-to-l from-surface-containerLow to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 lg:w-28 bg-gradient-to-r from-surface-containerLow to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-12 md:w-16 lg:w-28 bg-gradient-to-l from-surface-containerLow to-transparent z-10 pointer-events-none"></div>
 
       <div className="max-w-6xl mx-auto px-6 mb-6">
         <span className="text-secondary tracking-widest text-[13px] font-bold uppercase text-center block mb-2">Accredited & Registered With</span>
