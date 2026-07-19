@@ -56,15 +56,18 @@ function Navbar() {
         isScrolled ? 'glass shadow-sm py-4' : 'bg-surface py-6'
       )}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center">
+      {/* 1. Updated Container Element */}
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 flex items-center justify-between">
 
-        {/* Logo */}
-        <Link to="/" className="flex flex-col flex-shrink-0">
-          <span className="font-serif font-extrabold text-2xl text-primary tracking-tight whitespace-nowrap">
+        {/* 2. Updated Logo Element */}
+        <Link
+          to="/"
+          className="flex flex-col flex-1 min-w-0">
+          <span className="font-serif font-extrabold text-2xl text-primary tracking-tight whitespace-nowrap leading-none">
             Pen &amp; Page
           </span>
 
-          <span className="text-xs font-bold text-secondary tracking-[0.25em] uppercase mt-1 min-[950px]:whitespace-nowrap">
+          <span className="text-[11px] font-bold text-secondary tracking-[0.18em] uppercase mt-1 min-[950px]:whitespace-nowrap">
             Academia &amp; School
           </span>
         </Link>
@@ -147,9 +150,9 @@ function Navbar() {
           ))}
         </div>
 
-        {/* Mobile Toggle */}
+        {/* 3. Updated Hamburger Button Element */}
         <button
-          className="min-[950px]:hidden text-primary"
+          className="min-[950px]:hidden text-primary flex-shrink-0 ml-3"
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X /> : <Menu />}
