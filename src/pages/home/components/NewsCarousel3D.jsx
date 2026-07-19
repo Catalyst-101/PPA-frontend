@@ -104,7 +104,7 @@ export default function NewsCarousel3D() {
 
         {/* 3D Carousel container — perspective lives here so all cards share one consistent 3D space */}
         <div
-          className="relative flex items-center justify-center h-[540px] w-full overflow-visible py-10 select-none"
+          className="relative flex items-center justify-center h-[460px] md:h-[540px] w-full overflow-visible py-10 select-none"
           style={{ perspective: "1400px" }}
         >
           {newsItems.map((item, idx) => {
@@ -151,7 +151,7 @@ export default function NewsCarousel3D() {
                   if (offset !== 0) setNewsActiveIndex(idx);
                 }}
                 className={cn(
-                  "absolute w-full max-w-[320px] md:max-w-[370px] h-[420px] bg-surface-lowest border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none transition-colors duration-300 group",
+                  "absolute w-full max-w-[240px] md:max-w-[370px] h-[340px] md:h-[420px] bg-surface-lowest border border-outline-variant/15 flex flex-col justify-between overflow-hidden cursor-pointer select-none transition-colors duration-300 group",
                   isActive ? "border-secondary/50 ring-2 ring-secondary/10" : "hover:border-outline-variant/40"
                 )}
                 style={{
@@ -162,34 +162,34 @@ export default function NewsCarousel3D() {
                 }}
               >
                 {/* Top Image Section */}
-                <div className="relative h-44 w-full bg-surface-containerHighest shrink-0 pointer-events-none overflow-hidden">
+                <div className="relative h-32 md:h-44 w-full bg-surface-containerHighest shrink-0 pointer-events-none overflow-hidden">
                   <img
                     src={item.image}
                     alt={item.title}
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
-                  <span className="absolute top-4 left-4 bg-primary text-white text-[9px] tracking-widest font-bold uppercase py-1 px-3.5 rounded-full shadow-md transition-colors duration-300 group-hover:bg-secondary">
+                  <span className="absolute top-3 left-3 md:top-4 md:left-4 bg-primary text-white text-[8px] md:text-[9px] tracking-widest font-bold uppercase py-0.5 px-2.5 md:py-1 md:px-3.5 rounded-full shadow-md transition-colors duration-300 group-hover:bg-secondary">
                     {item.tag}
                   </span>
                 </div>
 
                 {/* Text Details Area */}
-                <div className="p-6 flex-grow flex flex-col justify-between bg-surface-lowest">
+                <div className="p-4 md:p-6 flex-grow flex flex-col justify-between bg-surface-lowest">
                   <div className="pointer-events-none">
-                    <span className="text-[10px] text-text-variant/60 font-semibold uppercase tracking-wider block mb-1">
+                    <span className="text-[9px] md:text-[10px] text-text-variant/60 font-semibold uppercase tracking-wider block mb-0.5 md:mb-1">
                       {item.date}
                     </span>
-                    <h3 className="font-serif text-base md:text-lg font-bold text-primary mb-2 line-clamp-2 leading-snug transition-colors duration-300 group-hover:text-secondary">
+                    <h3 className="font-serif text-sm md:text-lg font-bold text-primary mb-1 md:mb-2 line-clamp-2 leading-snug transition-colors duration-300 group-hover:text-secondary">
                       {item.title}
                     </h3>
-                    <p className="text-xs text-text-variant/85 leading-relaxed line-clamp-3 font-sans">
+                    <p className="text-[11px] md:text-xs text-text-variant/85 leading-relaxed line-clamp-3 font-sans">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div className="mt-4 pt-3 border-t border-outline-variant/5">
-                    <Link to="/news" className="inline-flex items-center gap-1.5 text-xs text-primary font-bold hover:text-secondary group/read">
+                  <div className="mt-2 md:mt-4 pt-2 md:pt-3 border-t border-outline-variant/5">
+                    <Link to="/news" className="inline-flex items-center gap-1.5 text-[11px] md:text-xs text-primary font-bold hover:text-secondary group/read">
                       Read Article
                       <ArrowRight className="w-3.5 h-3.5 group-hover/read:translate-x-1.5 transition-transform" />
                     </Link>

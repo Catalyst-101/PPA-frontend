@@ -69,7 +69,7 @@ export default function QuickLinks() {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      className="relative z-20 px-6 -mt-12 md:-mt-6 max-w-6xl mx-auto w-full pb-16"
+      className="relative z-20 px-6 -mt-4 md:-mt-4 max-w-6xl mx-auto w-full pb-16"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {links.map((item, idx) => {

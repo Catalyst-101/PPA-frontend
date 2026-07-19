@@ -57,7 +57,7 @@ function Navbar() {
       )}
     >
       {/* 1. Updated Container Element */}
-      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 flex items-center justify-between">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 flex items-center justify-between">
 
         {/* 2. Updated Logo Element */}
         <Link
